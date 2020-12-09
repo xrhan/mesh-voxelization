@@ -78,7 +78,10 @@ def read_off(file):
         else:
             assert lines[0] == 'OFF' or lines[0] == 'off', 'invalid OFF file %s' % file
 
-            parts = lines[1].split(' ')
+            non_empty = 1
+            while not lines[non_empty].strip():
+                non_empty += 1
+            parts = lines[non_empty].split(' ')
             assert len(parts) == 3
 
             num_vertices = int(parts[0])
@@ -87,7 +90,7 @@ def read_off(file):
             num_faces = int(parts[1])
             assert num_faces > 0
 
-            start_index = 2
+            start_index = non_empty + 1
 
         vertices = []
         for i in range(num_vertices):
